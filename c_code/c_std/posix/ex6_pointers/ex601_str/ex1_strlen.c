@@ -75,7 +75,6 @@ int main(void)
  *      ^                    ^                                          ^
  *      compilation          diagnostical                               filename
  *      flags                flags                                      for
- *                                                                      compilation
  *
  *
  * Linking processes:
@@ -84,6 +83,5 @@ int main(void)
  *      ^                ^         ^
  *      output           prgram    exteranl
  *      filename         name      libraries
- *
  *
  * =================================================================================== */

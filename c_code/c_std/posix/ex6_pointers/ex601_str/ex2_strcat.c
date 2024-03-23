@@ -154,7 +154,6 @@ size_t my_strlen_v5(const char *s)
  *      flags                flags                                      for
  *                                                                      compilation
  *
- *
  * Linking processes:
  * ------------------
  *  gcc [file_name].o -o [program] [-lm -glut -gl -xlib]
@@ -162,6 +161,4 @@ size_t my_strlen_v5(const char *s)
  *      output           prgram    exteranl
  *      filename         name      libraries
  *
- *
  * =================================================================================== */
-
