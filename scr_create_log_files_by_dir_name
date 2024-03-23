@@ -1,0 +1,46 @@
+#!/bin/bash
+#
+# AUTHOR:       morris
+# PARAM:        dir_name
+# DATE
+# 	CREATE		UPDATE
+#
+
+if [ $# -eq 0 ]; then
+	echo "Usage: $0 <directory>"
+	exit 1
+fi
+
+root_directory=$1
+
+# Function for creating the log-file in current directory
+create_log_file() {
+	local current_dir=$1
+	#  local log_file="${current_dir}.log"
+	local log_file="${current_dir}/${current_dir##*/}.log"
+
+
+	if [ ! -e "$log_file" ]; then
+		touch "$log_file"
+		echo "Created $log_file"
+	fi
+}
+
+# Recursion function for checking directory
+process_directory() {
+	local current_dir=$1
+
+  # Creating log-files for current directory
+  create_log_file "$current_dir"
+
+  # Set all sub-directories
+  for subdir in "$current_dir"/*; do
+	  if [ -d "$subdir" ]; then
+		  process_directory "$subdir"
+	  fi
+  done
+}
+
+# Running
+process_directory "$root_directory"
+
