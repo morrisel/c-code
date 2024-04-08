@@ -19,7 +19,6 @@ create_log_file() {
 	#  local log_file="${current_dir}.log"
 	local log_file="${current_dir}/${current_dir##*/}.log"
 
-
 	if [ ! -e "$log_file" ]; then
 		touch "$log_file"
 		echo "Created $log_file"
