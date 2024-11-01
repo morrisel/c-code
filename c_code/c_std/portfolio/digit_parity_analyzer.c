@@ -56,6 +56,7 @@ int main(void)
 }
 
 
+
 /* This function determines if the number n has a greater number of even digits than odd digits. */
 bool has_more_even_digits(unsigned long n)
 {
