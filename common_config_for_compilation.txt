@@ -1,138 +1,165 @@
-Basic compilation c files
-=========================
-
-gcc -Wall -Wextra -Wconversion -msoft-float -O0 -g file_name.c -o out_file_name
-
-
-
-gcc -O0 -g -Wall -Wextra -Wconversion -msoft-float file_name.c -o out_file_name
-    ------ --------------------------------------- ----------- -- -------------
-    ^      ^                                       ^           ^  ^
-    1      2                                       3           4  5
+                                                                                   
+      ┌─────────────────────────────────────────────────────────────────────┐      
+      │                                                                     │      
+      │     Basic compilation c files for Linux and embedded systems        │      
+      │                                                                     │      
+      └─────────────────────────────────────────────────────────────────────┘      
 
 
 
-1: compilations flags
-2: diagnosticals flags
-3: source name (c)
-4: flag to output -o
-5: out put name (runnable file)
+1. Single-file compilation (produces an executable)
+===================================================
+
+gcc [-std=<standard>] [-<diagnostic flags>] [-<optimization/debug flags>] [-<architecture flags>] file_name.c -o out_file_name [-<external libraries>]
 
 
+gcc -std=c89 -Wall -Wextra -Wconversion -pedantic -O0 -g -msoft-float file_name.c -o out_file_name -lm
+     -------  -----------------------------------  -----  ----------- -----------  - -------------  --
+      ^        ^                                    ^      ^           ^           ^  ^              ^
+      1        2                                    3      4           5           6  7              8
 
 
+  1) standard (c89|ansi, c90, c99, c11, c17, c23)
+  2) diagnostic flags
+  3) optimization and debugging flags
+  4) architectural parameters flags (-msoft-float - for floating points)
+  5) source name (c)
+  6) output flag (-o)
+  7) output file name (runnable file)
+  8) external library flags 
 
-
-
-
-
-
-	gcc -std=c89 -c -g -O0 my_array.c -lm
-
-	gcc: The compiler command
-		-std=c89:	Specifies the C89 standard (you can use other standards like c99 or c11)
-		-c:		    Generates an object file (.o) instead of an executable
-		-g:		    Includes debugging information in the object file
-		-O0:		  No optimization (you can use other optimization levels)
-		-lm:		  Links the standard math library, for linking processing
 
 Examples:
-====================================
 
-/* compilation:       gcc file_name.c -c -g -O0 -std=c99 -pedantic -Wall -Wextra          */
-/* symbol table:      nm file_name.o                                                      */
-/* linking:           gcc -std=c99 -pedantic -Wall -Wextra file_name.o -o program -lm     */
-/* running:           ./program                                                           */
+minimalistic:
+gcc file_name.c 
 
-/* compilation:       gcc -std=c89 -c -g -O0 my_array.c -pedantic -Wall -Wextra -Werror -Wshadow */
+basic:
+gcc -Wall -Wextra -Wconversion -pedantic -O0 -g file_name.c -o out_file_name 
 
-/* checking: nm [file_name].o */
-/* linking: gcc [file_name].o -o program -lm */
-/* running: ./program */
+custom:
+gcc -Wall -Wextra -Wconversion -Wshadow -pedantic -O0 -g -msoft-float file_name.c -o out_file_name
+
+gcc -ansi -Wall -Wextra -Wconversion -pedantic -O0 -g -msoft-float file_name.c -o out_file_name
+gcc -std=c89 -Wall -Wextra -Werror -Wconversion -Wshadow -pedantic -O0 -g -msoft-float file_name.c -o out_file_name -lm
+
+  (!) Note: For using the ANSI standart just enough to add the -ansi (which equivalent to -std=c89).
+            Otherwise, use -std=[the standart]
+
+
+  1) standard flags 
+     - `-std=c89` or `-ansi`, `-std=c90`, `-std=c99`, `-std=c11`, `-std=c17`, `-std=c23`
+     
+  2) diagnostic flags 
+     - `-Wall -Wextra -Wconversion -Wshadow -pedantic`
+     - `-Wno-main` - This is typically used in older or legacy c programs or embedded systems.
+     
+  3) compilation | optimization and debugging flags 
+     - `-O0 -g` 
+     
+  4) architectural parameters flags
+     - `-msoft-float` (if hardware not sopports the floating points)
+     
+  5) source name (c)
+     - `file_name.c` 
+     
+  6) output flag (-o)  
+     - `-o` 
+     
+  7) output file name (runnable file) 
+     - `out_file_name` 
+     
+  8) external library flags 
+     - `-lm` 
+
+
+
+
+2. Multi-file compilation (compiles first, then links separately)
+=================================================================
+
+gcc -c [-std=<standard>] [-<diagnostic flags>] [-<optimization/debug flags>] [-<architecture flags>] file1.c file2.c ...
+gcc file1.o file2.o ... -o program [-<external libraries>]
+
+
+gcc -Wall -Wextra -Wconversion -O0 -g -msoft-float file_name.c -o out_file_name
+
+
+Compilation processes:
+    gcc -c -std=c99 -Wall -Wextra -pedantic -O0 -g file1.c file2.c
+
+Linking processes:
+    gcc file1.o file2.o -o program
+
+    * This command links the file1.o and file2.o objects files into an executable file named program.
 
 
 
 
 
+Additional Stuff:
+=================
+About flags:
+  -c:		      Generates an object file (.o) instead of an executable
+  -std=c89:	  Specifies the c89 or ansi standard (you can use other standards like c99 or c11 and s.o.)
+  -O0:		    No optimization (you can use other optimization levels 1, 2, 3, 4)
+  -g:		      Includes debugging information in the object file
 
-/**
- * Compilation processes:
- * ----------------------
- *  gcc [-std=c89 -c -g -O0] [-pedantic -Wall -Wextra -Werror -Wshadow] [file_name].c
- *      ^                    ^                                          ^
- *      compilation          diagnostical                               filename
- *      flags                flags                                      for
- *                                                                      compilation
- *
- * Linking processes:
- * ------------------
- *  gcc [file_name].o -o [program] [-lm -glut -gl -xlib]
- *      ^                ^         ^
- *      output           prgram    exteranl
- *      filename         name      libraries
- *
- *
- * ======================================================================================
- *
- *
- *
- *
- *
- *
- *
- *
- *
- * Compilation processes:
- * ----------------------
- *  gcc [-std=c89 -c -g -O0] [-pedantic -Wall -Wextra -Werror -Wshadow] [file_name].c
- *      ^                    ^                                          ^
- *      compilation          diagnostical                               filename
- *      flags                flags                                      for
- *                                                                      compilation
- *
- * Basic compilation:
- *     gcc -std=c89 -c -g -O0 my_array.c
- *
- *     This command compiles the my_array.c file with basic options:
- *         -std=c89: specifies the C89 standard.
- *         -c: generates an object file (*.o) instead of an executable file.
- *         -g: generates debugging information.
- *         -O0: no optimization
- *
- * Compilation with additional flags:
- *     gcc [-std=c89 -c -g -O[0-4]] [additional flags:[-pedantic -Wall -Wextra -Werror -Wshadow]] [file_name].c
- *
- *     This command allows you to specify additional flags to the compiler:
- *         -O[0-4]: specifies the optimization level (0 - no optimization, 4 - highest optimization)
- *         -pedantic: enables "pedantic" mode for stricter compliance with the C89 standard.
- *         -Wall: displays all compiler warnings.
- *         -Wextra: displays additional warnings.
- *         -Werror: treats all warnings as errors.
- *         -Wshadow: warns about shadowed variables.
- *
- * Linking processes:
- * ------------------
- *  gcc [file_name].o -o [program] [-lm -glut -gl -xlib]
- *      ^                ^         ^
- *      output           prgram    exteranl
- *      filename         name      libraries
- *
- * Basic linking:
- *     gcc my_array.o -o program
- *
- *     This command links the my_array.o object file into an executable file named program.
- *
- * Linking with additional flags:
- *     gcc my_array.o -o program [additional flags:[-lm -glut -gl -xlib]]
- *
- *     This command allows you to specify additional flags to the linker:
- *        -lm: links the standard math library.
- *        -glut: links the GLUT library for graphics.
- *        -gl: links the OpenGL library for graphics.
- *        -xlib: links the X11 library for windowing.
- *
- *
- * Additional resources:
- * ---------------------
- * GNU Compiler Collection (GCC) documentation: https://gcc.gnu.org/onlinedocs/
- */
+This command allows you to specify additional flags to the compiler:
+  -O[0-3]:    specifies the optimization level (0 - no optimization, 3 - highest optimization)
+  -pedantic:  enables "pedantic" mode for stricter compliance with the C89 standard.
+  -Wall:      displays all compiler warnings.
+  -Wextra:    displays additional warnings.
+  -Werror:    treats all warnings as errors.
+  -Wshadow:   warns about shadowed variables.
+  -Wno-main:  this flag is used to suppress warnings about the main function defined as void main(), 
+              this is a common practice in older or legacy embedded systems, 
+              where the main function may be defined with the void return type, 
+              which was allowed in early versions of the C language before the C89 standard, 
+              when the main behaves like a procedure and not like a function.
+
+  andvanced optimization flags:
+      -O3:                    → Enables all -O2 optimizations plus aggressive optimizations.  
+      -march=native           → Utilizes the maximum capabilities of the CPU.  
+      -flto                   → Enables Link Time Optimization (LTO) for cross-file optimization.  
+      -ffast-math             → Enables fast but potentially unsafe floating-point optimizations.  
+      -funroll-loops          → Unrolls loops to improve performance.  
+      -fprefetch-loop-arrays  → Improves data prefetching into the cache.
+
+            example for aggressive optimization:
+            gcc -O3 -march=native -flto -ffast-math -funroll-loops -fprefetch-loop-arrays
+                                        -----------
+                                          ^
+                                          !caution:
+                                          This optimization can lead to a loss 
+                                          of precision in calculations, especially 
+                                          for scientific applications.
+
+
+Linking with additional flags:
+    gcc file1.o file2.o -o program -lm -glut -gl -xlib
+
+    This command allows you to specify additional flags to the linker:
+       -lm: links the standard math library.
+
+       the external libraries is not a standart library of c:
+       -glut: links the GLUT library for graphics.
+       -gl: links the OpenGL library for graphics.
+       -xlib: links the X11 library for windowing.
+
+
+Standarts of C:
+---------------
+1. C89 (ANSI C)   
+2. C90 (ISO C)
+3. C99
+4. C11
+5. C17 (C18)
+6. C23
+
+
+Additional resources:
+---------------------
+GNU Compiler Collection (GCC) documentation: https://gcc.gnu.org/onlinedocs/
+
+
