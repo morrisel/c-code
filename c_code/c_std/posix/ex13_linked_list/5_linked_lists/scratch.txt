@@ -1,0 +1,48 @@
+void *p_general = malloc(4);
+int *p1 = p_general;
+float *p2 = p_general;
+
+//*p1 = 5;
+*p2 = 2.5;
+
+
+char* void*
+
+C: union / memcpy
+C++: std::bit_cast / memcpy
+
+
+
+-----
+
+typedef struct List List;
+struct List {
+    Node *head;
+    size_t length;
+};
+
+------
+
+typedef struct List List;
+struct List {
+    Node *head;
+    Node *tail;
+    size_t length;
+};
+
+-----
+
+#include <stdlib.h>
+#include <time.h>
+
+voif f(void) {
+    int n = rand();
+
+    n = n % 23; // 0-22
+}
+
+int main(void) {
+    srand(time(NULL));
+
+    // ...
+}

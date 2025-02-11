@@ -1,0 +1,24 @@
+i32 2c 
+
+MAX Value 
+As Data:    7FFFFFFF
+As Value: 0x7FFFFFFF
+
+MIN Value
+As Data:     80000000
+As Value: -0x80000000
+
+1111...1111  -1
+1111...1110  -2
+1111...1101  -3
+
+1000...0000 MIN
+
+Signed -> Unsigned OK
+Unsigned -> Signed Not OK (UB)
+
+01111111 +127 +0x7F [7F]
+10000000 -128 -0x80 [80]
+
+0x80
+
