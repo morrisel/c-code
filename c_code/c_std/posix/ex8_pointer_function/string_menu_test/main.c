@@ -42,7 +42,7 @@ int main(void)
 {
   //TODO: initialize a string vector
   StringVector sv;
-  sv_init(sv);
+  sv_init(&sv);
 
   //TODO: initialize the menu array
   MenuItem menu[] = {
@@ -54,17 +54,26 @@ int main(void)
     {"quit", NULL}
   }; 
 
+
   //TODO: menu loop
   int option;
   do
   {
+
     // print the strings in the vector
     for (size_t i = 0; i < sv.length; i++)
+    {
       printf("%zu) %s\n", i, sv.arr[i]);
+    }
 
+//    puts("-----------------------");
+    printf("-----------------------\n");
+    
     // print the menu option
     for (size_t i = 0; i < sizeof(menu) / sizeof(menu[0]) - 1; i++)
+    {
       printf("%zu) %s\n", i+1, menu[i].description);
+    }
     printf("0) Quit\n");
 
     // get the user input for option
@@ -73,7 +82,9 @@ int main(void)
 
     // perform the action based on the selected option
     if(option > 0 && option <= 5)
+    {
       menu[option - 1].action(&sv);
+    }
 
   }
   while(option != 0);
@@ -103,12 +114,16 @@ void action_rep_char(StringVector *sv)
 {
   size_t index;
   char old_char, new_char;
+
   printf("enter index: ");
   scanf("%zu", &index);
+
   printf("enter character to replace: ");
   scanf(" %c", &old_char);
+
   printf("enter new character: ");
   scanf(" %c", &new_char);
+
   str_rep_char(sv->arr[index], old_char, new_char);
 }
 
@@ -120,20 +135,21 @@ void action_rep_char_all(StringVector *sv)
   printf("enter new character: ");
   scanf(" %c", &new_char);
 
-  for (size_t i=0; i<sv.length; i++)
+  for (size_t i = 0; i < sv->length; i++)
     str_rep_char(sv->arr[i], old_char, new_char);
+
 }
 
 
 void action_zigzag_copy(StringVector *sv)
 {
   size_t index1, index2;
-    printf("Enter first index: ");
-    scanf("%zu", &index1);
-    printf("Enter second index: ");
-    scanf("%zu", &index2);
-    char *zigzag_str = str_new_zigzag(sv->arr[index1], sv->arr[index2]);
-    sv_add_last(sv, zigzag_str);
+  printf("Enter first index: ");
+  scanf("%zu", &index1);
+  printf("Enter second index: ");
+  scanf("%zu", &index2);
+  char *zigzag_str = str_new_zigzag(sv->arr[index1], sv->arr[index2]);
+  sv_add_last(sv, zigzag_str);
 
 }
 
