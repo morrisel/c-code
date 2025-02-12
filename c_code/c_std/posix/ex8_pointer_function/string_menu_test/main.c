@@ -101,16 +101,40 @@ void action_del_string(StringVector *sv)
 
 void action_rep_char(StringVector *sv)
 {
-
+  size_t index;
+  char old_char, new_char;
+  printf("enter index: ");
+  scanf("%zu", &index);
+  printf("enter character to replace: ");
+  scanf(" %c", &old_char);
+  printf("enter new character: ");
+  scanf(" %c", &new_char);
+  str_rep_char(sv->arr[index], old_char, new_char);
 }
 
 void action_rep_char_all(StringVector *sv)
 {
+  char old_char, new_char;
+  printf("enter character to replace: ");
+  scanf(" %c", &old_char);
+  printf("enter new character: ");
+  scanf(" %c", &new_char);
+
+  for (size_t i=0; i<sv.length; i++)
+    str_rep_char(sv->arr[i], old_char, new_char);
 }
 
 
 void action_zigzag_copy(StringVector *sv)
 {
+  size_t index1, index2;
+    printf("Enter first index: ");
+    scanf("%zu", &index1);
+    printf("Enter second index: ");
+    scanf("%zu", &index2);
+    char *zigzag_str = str_new_zigzag(sv->arr[index1], sv->arr[index2]);
+    sv_add_last(sv, zigzag_str);
+
 }
 
 
